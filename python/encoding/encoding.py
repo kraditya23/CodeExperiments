@@ -10,7 +10,7 @@ def ordinal_encoder(df) :
     encoded_dict = {}
     for col in range(len(df.columns)):
         cur_encoded_col = np.empty(len(df), dtype=int)
-        my_list = np.array(sorted(set(df.iloc[:, col].to_numpy())))
+        my_list = df.iloc[:, col].drop_duplicates().to_numpy()
         for i in range(len(df)):
             cur_encoded_col[i] = np.argwhere(my_list == df.iloc[:, col][i])[0][0]
 
@@ -23,7 +23,7 @@ def ordinal_encoder(df) :
 def one_hot_encoder(df):
     encoded_dict = {}
     for col in range(len(df.columns)):
-        my_list = np.array(list(set(df.iloc[:, col])))
+        my_list = df.iloc[:, col].drop_duplicates().to_numpy()
         cur_encoded_col = np.zeros((len(my_list), len(df)), dtype=int)
         for i in range(len(df)):
             cur_encoded_col[np.argwhere(my_list == df.iloc[:, col][i])[0][0]][i] = 1
